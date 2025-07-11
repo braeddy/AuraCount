@@ -8,7 +8,16 @@ import ActionHistory from '@/components/ActionHistory';
 import Header from '@/components/Header';
 
 export default function GamePage() {
-  const { sortedPlayers, actions, addPlayer, removePlayer, changeAura, resetGame } = useGameState();
+  const { 
+    sortedPlayers, 
+    actions, 
+    addPlayer, 
+    removePlayer, 
+    changeAura, 
+    resetGame,
+    isLoading,
+    isConnected
+  } = useGameState();
   const [showHistory, setShowHistory] = useState(false);
 
   return (
@@ -18,6 +27,8 @@ export default function GamePage() {
         onToggleHistory={() => setShowHistory(!showHistory)}
         onResetGame={resetGame}
         showHistory={showHistory}
+        isLoading={isLoading}
+        isConnected={isConnected}
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

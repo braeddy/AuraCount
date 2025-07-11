@@ -2,15 +2,19 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { GameSessionService } from '@/services/gameSessionService';
 import ConfirmModal from './ConfirmModal';
+import DatabaseStatus from './DatabaseStatus';
 
 interface HeaderProps {
   playersCount: number;
   onToggleHistory: () => void;
   onResetGame: () => void;
   showHistory: boolean;
+  // Nuove props per il database status
+  isLoading?: boolean;
+  isConnected?: boolean;
 }
 
-export default function Header({ playersCount, onToggleHistory, onResetGame, showHistory }: HeaderProps) {
+export default function Header({ playersCount, onToggleHistory, onResetGame, showHistory, isLoading, isConnected }: HeaderProps) {
   const router = useRouter();
   const sessionService = GameSessionService.getInstance();
   const currentSession = sessionService.getCurrentSession();
@@ -129,6 +133,11 @@ export default function Header({ playersCount, onToggleHistory, onResetGame, sho
             </button>
           )}
         </div>
+      </div>
+
+      {/* Stato connessione database - sempre visibile */}
+      <div className="mt-4">
+        <DatabaseStatus isLoading={isLoading} isConnected={isConnected} />
       </div>
 
       {/* Modal di conferma eliminazione */}

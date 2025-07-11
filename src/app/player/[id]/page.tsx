@@ -35,10 +35,10 @@ export default function PlayerDetailPage() {
     setEditBio(playerData.bio || '');
   }, [playerId, db, router]);
 
-  const handleSaveChanges = () => {
+  const handleSaveChanges = async () => {
     if (!player) return;
     
-    const updatedPlayer = db.updatePlayer(player.id, {
+    const updatedPlayer = await db.updatePlayer(player.id, {
       name: editName.trim(),
       bio: editBio.trim()
     });
@@ -49,10 +49,10 @@ export default function PlayerDetailPage() {
     }
   };
 
-  const handleProfileImageChange = (imageUrl: string) => {
+  const handleProfileImageChange = async (imageUrl: string) => {
     if (!player) return;
     
-    const updatedPlayer = db.updatePlayer(player.id, {
+    const updatedPlayer = await db.updatePlayer(player.id, {
       profileImage: imageUrl
     });
     
@@ -61,10 +61,10 @@ export default function PlayerDetailPage() {
     }
   };
 
-  const handleAddAura = (amount: number, reason?: string) => {
+  const handleAddAura = async (amount: number, reason?: string) => {
     if (!player) return;
     
-    db.changeAura(player.id, amount, reason);
+    await db.changeAura(player.id, amount, reason);
     setPlayer(db.getPlayer(player.id)!);
     setPlayerActions(db.getPlayerActions(player.id));
   };
