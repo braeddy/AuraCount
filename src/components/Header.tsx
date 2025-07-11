@@ -48,7 +48,7 @@ export default function Header({ playersCount, onToggleHistory, onResetGame, sho
             AuraCount
           </h1>
           <p className="text-slate-500 text-lg font-light">
-            Traccia l'aura dei tuoi amici
+            Traccia l&apos;aura dei tuoi amici
           </p>
           {currentSession && (
             <div className="mt-2 text-slate-400 text-sm">

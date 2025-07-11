@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef } from 'react';
+import Image from 'next/image';
 
 interface ProfileImageUploadProps {
   currentImage?: string;
@@ -56,9 +57,11 @@ export default function ProfileImageUpload({ currentImage, playerName, onImageCh
     <div className="relative">
       <div className="w-32 h-32 rounded-3xl bg-gradient-to-br from-cyan-100 to-blue-100 flex items-center justify-center overflow-hidden border-4 border-white/50 shadow-lg">
         {currentImage ? (
-          <img 
+          <Image 
             src={currentImage} 
             alt={playerName}
+            width={128}
+            height={128}
             className="w-full h-full object-cover"
           />
         ) : (

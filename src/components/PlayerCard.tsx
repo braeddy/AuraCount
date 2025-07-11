@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { Player } from '@/types';
 
 interface PlayerCardProps {
@@ -81,9 +82,11 @@ export default function PlayerCard({ player, rank, onChangeAura, onRemovePlayer 
           <div className="flex items-center space-x-3">
             <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-cyan-100 to-blue-100 flex items-center justify-center overflow-hidden border-2 border-white/50">
               {player.profileImage ? (
-                <img 
+                <Image 
                   src={player.profileImage} 
                   alt={player.name}
+                  width={56}
+                  height={56}
                   className="w-full h-full object-cover"
                 />
               ) : (

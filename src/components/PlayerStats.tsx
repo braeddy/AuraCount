@@ -114,7 +114,7 @@ export default function PlayerStats({ player, actions }: PlayerStatsProps) {
               </div>
               {biggestGain.reason && (
                 <div className="text-slate-600 text-sm mt-1">
-                  "{biggestGain.reason}"
+                  &ldquo;{biggestGain.reason}&rdquo;
                 </div>
               )}
             </div>
@@ -132,7 +132,7 @@ export default function PlayerStats({ player, actions }: PlayerStatsProps) {
               </div>
               {biggestLoss.reason && (
                 <div className="text-slate-600 text-sm mt-1">
-                  "{biggestLoss.reason}"
+                  &ldquo;{biggestLoss.reason}&rdquo;
                 </div>
               )}
             </div>

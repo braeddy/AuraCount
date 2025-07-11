@@ -81,7 +81,7 @@ export default function LandingPage() {
             AuraCount
           </h1>
           <p className="text-slate-500 text-lg font-light">
-            Traccia l'aura dei tuoi amici
+            Traccia l&apos;aura dei tuoi amici
           </p>
         </div>
 
