@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #fefefe;
+  --foreground: #1e293b;
+  --primary: #0891b2;
+  --secondary: #0f172a;
+  --accent: #fb7185;
+  --muted: #f1f5f9;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0f172a;
+    --foreground: #f1f5f9;
+    --primary: #06b6d4;
+    --secondary: #1e293b;
+    --accent: #fb7185;
+    --muted: #1e293b;
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  .glass-card {
+    @apply bg-white/80 backdrop-blur-xl border border-white/20 shadow-lg shadow-slate-200/50;
+  }
+  
+  .glass-card-dark {
+    @apply bg-slate-800/80 backdrop-blur-xl border border-slate-700/50 shadow-lg shadow-slate-900/20;
+  }
+}
