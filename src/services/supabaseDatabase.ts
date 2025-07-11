@@ -208,37 +208,57 @@ export class DatabaseService {
     operation: 'insert' | 'update' | 'delete',
     id?: string
   ): Promise<void> {
-    if (!this.isOnline || !isSupabaseReady) return;
+    console.log(`🔄 syncToSupabase: ${operation} su ${table}`, { data, id });
+    
+    if (!this.isOnline || !isSupabaseReady) {
+      console.log('⚠️ Supabase non disponibile, skip sync');
+      return;
+    }
 
     try {
       switch (operation) {
         case 'insert':
+          console.log(`📤 Inserendo in ${table}:`, data);
           const { error: insertError } = await supabase
             .from(table)
             .insert(data);
-          if (insertError) throw insertError;
+          if (insertError) {
+            console.error(`❌ Errore insert in ${table}:`, insertError);
+            throw insertError;
+          }
+          console.log(`✅ Insert completato in ${table}`);
           break;
 
         case 'update':
           if (!id) throw new Error('ID richiesto per update');
+          console.log(`📝 Aggiornando ${table} ID ${id}:`, data);
           const { error: updateError } = await supabase
             .from(table)
             .update(data)
             .eq('id', id);
-          if (updateError) throw updateError;
+          if (updateError) {
+            console.error(`❌ Errore update in ${table}:`, updateError);
+            throw updateError;
+          }
+          console.log(`✅ Update completato in ${table}`);
           break;
 
         case 'delete':
           if (!id) throw new Error('ID richiesto per delete');
+          console.log(`🗑️ Eliminando da ${table} ID ${id}`);
           const { error: deleteError } = await supabase
             .from(table)
             .delete()
             .eq('id', id);
-          if (deleteError) throw deleteError;
+          if (deleteError) {
+            console.error(`❌ Errore delete in ${table}:`, deleteError);
+            throw deleteError;
+          }
+          console.log(`✅ Delete completato in ${table}`);
           break;
       }
     } catch (error) {
-      console.error(`Errore nella sincronizzazione ${operation} su ${table}:`, error);
+      console.error(`💥 Errore nella sincronizzazione ${operation} su ${table}:`, error);
       // In caso di errore, continua con localStorage
       this.isOnline = false;
     }
@@ -352,36 +372,58 @@ export class DatabaseService {
 
   // Cambia aura di un giocatore
   async changeAura(playerId: string, change: number, reason?: string): Promise<boolean> {
-    const player = this.getPlayer(playerId);
-    if (!player) return false;
-
-    // Aggiorna l'aura del giocatore
-    await this.updatePlayer(playerId, { aura: player.aura + change });
-
-    // Aggiungi l'azione allo storico
-    const action: AuraAction = {
-      id: crypto.randomUUID(),
-      playerId,
-      playerName: player.name,
-      change,
-      timestamp: new Date(),
-      reason
-    };
-
-    this.gameState.actions.unshift(action);
-    // Mantieni solo le ultime 1000 azioni
-    this.gameState.actions = this.gameState.actions.slice(0, 1000);
+    console.log(`🎯 Database.changeAura chiamato: playerId=${playerId}, change=${change}, reason=${reason}`);
     
-    this.saveToStorage();
+    const player = this.getPlayer(playerId);
+    if (!player) {
+      console.error('❌ Player non trovato:', playerId);
+      return false;
+    }
 
-    // Sincronizza con Supabase
-    await this.syncToSupabase(
-      'aura_actions',
-      this.convertActionToDatabaseAction(action),
-      'insert'
-    );
+    console.log(`👤 Player trovato: ${player.name}, aura attuale: ${player.aura}`);
+    const newAura = player.aura + change;
+    console.log(`🔢 Nuova aura calcolata: ${newAura}`);
 
-    return true;
+    try {
+      // Aggiorna l'aura del giocatore
+      await this.updatePlayer(playerId, { aura: newAura });
+      console.log(`✅ Player aggiornato con successo`);
+
+      // Aggiungi l'azione allo storico
+      const action: AuraAction = {
+        id: crypto.randomUUID(),
+        playerId,
+        playerName: player.name,
+        change,
+        timestamp: new Date(),
+        reason
+      };
+
+      this.gameState.actions.unshift(action);
+      // Mantieni solo le ultime 1000 azioni
+      this.gameState.actions = this.gameState.actions.slice(0, 1000);
+      
+      this.saveToStorage();
+
+      // Sincronizza con Supabase
+      try {
+        await this.syncToSupabase(
+          'aura_actions',
+          this.convertActionToDatabaseAction(action),
+          'insert'
+        );
+        console.log(`🔄 Sincronizzazione completata`);
+      } catch (syncError) {
+        console.error('❌ Errore nella sincronizzazione:', syncError);
+        // Non blocchiamo l'operazione se la sincronizzazione fallisce
+      }
+
+      console.log(`✅ ChangeAura completato con successo`);
+      return true;
+    } catch (error) {
+      console.error('❌ Errore in changeAura:', error);
+      return false;
+    }
   }
 
   // Ottieni tutte le azioni

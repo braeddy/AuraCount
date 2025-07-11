@@ -6,9 +6,18 @@ ALTER TABLE aura_actions DROP CONSTRAINT IF EXISTS aura_actions_change_reasonabl
 ALTER TABLE players DROP CONSTRAINT IF EXISTS players_aura_reasonable;
 
 -- 2. Mantieni solo i constraints essenziali (non zero per le azioni)
-ALTER TABLE aura_actions 
-ADD CONSTRAINT aura_actions_change_not_zero 
-CHECK (change != 0);
+-- Solo se non esiste già
+DO $$ 
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1 FROM pg_constraint 
+        WHERE conname = 'aura_actions_change_not_zero'
+    ) THEN
+        ALTER TABLE aura_actions 
+        ADD CONSTRAINT aura_actions_change_not_zero 
+        CHECK (change != 0);
+    END IF;
+END $$;
 
 -- 3. Verifica che i constraints siano stati aggiornati
 SELECT 

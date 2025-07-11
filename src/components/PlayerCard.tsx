@@ -44,8 +44,14 @@ export default function PlayerCard({ player, rank, onChangeAura, onRemovePlayer 
 
   const quickChange = (amount: number, event: React.MouseEvent) => {
     event.stopPropagation(); // Previene il click sulla card
-    onChangeAura(player.id, amount, reason.trim() || undefined);
-    setReason('');
+    console.log(`🎯 QuickChange chiamato: ${amount} per player ${player.name}`);
+    try {
+      onChangeAura(player.id, amount, reason.trim() || undefined);
+      setReason('');
+      console.log(`✅ QuickChange completato: ${amount}`);
+    } catch (error) {
+      console.error('❌ Errore in quickChange:', error);
+    }
   };
 
   const customChange = (event: React.MouseEvent) => {
