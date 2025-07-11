@@ -34,7 +34,7 @@ export default function LandingPage() {
     }
   };
 
-  const handleJoinGame = () => {
+  const handleJoinGame = async () => {
     if (isJoining) return;
     
     const code = gameCode.trim();
@@ -47,16 +47,13 @@ export default function LandingPage() {
     setJoinError('');
 
     try {
-      const session = gameSessionService.findSessionByCode(code);
+      const session = await gameSessionService.joinSession(code);
       if (!session) {
         setJoinError('Codice partita non trovato');
         setIsJoining(false);
         return;
       }
 
-      // Imposta come sessione corrente
-      gameSessionService.setCurrentSession(session.id);
-      
       // Naviga alla pagina di gioco
       router.push('/game');
     } catch (error) {
