@@ -67,13 +67,48 @@ Se hai già deployato il progetto su Vercel senza Supabase:
 Dopo il deployment:
 
 1. **Apri l'URL dell'app**
-2. **Controlla la console del browser:**
+2. **Controlla la console del browser (F12 > Console):**
    - Dovrebbe mostrare "Online" se Supabase è configurato correttamente
    - Se mostra "Offline", verifica le environment variables
-3. **Testa le funzionalità:**
+   - **Se non vedi nessun messaggio:**
+     - Ricarica la pagina (F5)
+     - Controlla che non ci siano filtri attivi nella console
+     - Verifica che la tab "Console" sia selezionata
+3. **Controlla l'indicatore di stato nell'app:**
+   - In alto a destra dovrebbe esserci un pallino verde (Online) o arancione (Offline)
+4. **Testa le funzionalità:**
    - Aggiungi un giocatore
    - Modifica l'aura
    - Verifica che i dati persistano dopo refresh
+
+### Debug Console - Cosa cercare:
+
+**✅ Configurazione corretta (dovrebbe apparire):**
+```
+🔧 AuraCount: Configurazione Supabase: { url: "https://abc123.supabase.co...", key: "eyJhbGciO...", configured: true }
+🔧 AuraCount: Inizializzazione DatabaseService...
+🔍 AuraCount: Verifico connessione Supabase...
+✅ AuraCount: Online - Connesso a Supabase
+📂 AuraCount: Caricamento dati...
+📥 AuraCount: Dati caricati da Supabase
+```
+
+**❌ Configurazione mancante:**
+```
+🔧 AuraCount: Configurazione Supabase: { url: "https://your-project-id...", key: "your_supabase_an...", configured: false }
+🔧 AuraCount: Inizializzazione DatabaseService...
+🔍 AuraCount: Verifico connessione Supabase...
+⚠️ AuraCount: Supabase non configurato, modalità localStorage
+📂 AuraCount: Caricamento dati...
+📁 AuraCount: Caricamento da localStorage
+```
+
+**⚠️ Se non vedi NESSUN messaggio AuraCount:**
+1. **Ricarica la pagina** con F5
+2. **Cancella la cache** (Ctrl+F5)
+3. **Controlla i filtri della console** - assicurati che siano mostrati tutti i messaggi
+4. **Verifica di essere sulla pagina corretta** - vai su `/game`
+5. **Controlla che JavaScript sia abilitato** nel browser
 
 ## Troubleshooting
 

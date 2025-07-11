@@ -11,6 +11,12 @@ const isSupabaseConfigured =
   supabaseKey !== 'your_supabase_anon_key' &&
   supabaseUrl.startsWith('http')
 
+console.log('🔧 AuraCount: Configurazione Supabase:', {
+  url: supabaseUrl ? `${supabaseUrl.slice(0, 30)}...` : 'MANCANTE',
+  key: supabaseKey ? `${supabaseKey.slice(0, 10)}...` : 'MANCANTE',
+  configured: isSupabaseConfigured
+});
+
 // Se Supabase non è configurato, crea un client dummy per evitare errori
 export const supabase = isSupabaseConfigured 
   ? createClient(supabaseUrl, supabaseKey)

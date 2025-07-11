@@ -18,6 +18,7 @@ export class DatabaseService {
   private isOnline: boolean = true;
 
   private constructor() {
+    console.log('🔧 AuraCount: Inizializzazione DatabaseService...');
     this.checkConnection();
     this.loadData();
   }
@@ -31,8 +32,10 @@ export class DatabaseService {
 
   // Verifica se Supabase è disponibile
   private async checkConnection(): Promise<void> {
+    console.log('🔍 AuraCount: Verifico connessione Supabase...');
+    
     if (!isSupabaseReady) {
-      console.warn('Supabase non configurato, modalità localStorage');
+      console.log('⚠️ AuraCount: Supabase non configurato, modalità localStorage');
       this.isOnline = false;
       return;
     }
@@ -40,23 +43,34 @@ export class DatabaseService {
     try {
       const { error } = await supabase.from('players').select('count').limit(1);
       this.isOnline = !error;
+      if (this.isOnline) {
+        console.log('✅ AuraCount: Online - Connesso a Supabase');
+      } else {
+        console.log('❌ AuraCount: Errore Supabase:', error);
+        console.log('🔄 AuraCount: Modalità offline attivata');
+      }
     } catch (error) {
-      console.warn('Supabase non disponibile, modalità offline:', error);
+      console.log('❌ AuraCount: Errore di connessione:', error);
+      console.log('🔄 AuraCount: Modalità offline attivata');
       this.isOnline = false;
     }
   }
 
   // Carica i dati (da Supabase se online, altrimenti da localStorage)
   private async loadData(): Promise<void> {
+    console.log('📂 AuraCount: Caricamento dati...');
+    
     if (this.isOnline) {
       try {
         await this.loadFromSupabase();
+        console.log('📥 AuraCount: Dati caricati da Supabase');
       } catch (error) {
-        console.error('Errore nel caricamento da Supabase, fallback a localStorage:', error);
+        console.error('❌ AuraCount: Errore caricamento Supabase, fallback localStorage:', error);
         this.isOnline = false;
         this.loadFromStorage();
       }
     } else {
+      console.log('📁 AuraCount: Caricamento da localStorage');
       this.loadFromStorage();
     }
   }
