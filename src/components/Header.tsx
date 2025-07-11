@@ -28,10 +28,10 @@ export default function Header({ playersCount, onToggleHistory, onResetGame, sho
     setShowDeleteModal(true);
   };
 
-  const confirmDeleteGame = () => {
+  const confirmDeleteGame = async () => {
     if (!currentSession) return;
     
-    const success = sessionService.deleteSession(currentSession.id);
+    const success = await sessionService.deleteSession(currentSession.id);
     if (success) {
       setShowDeleteModal(false);
       // Reindirizza alla landing page dopo l'eliminazione

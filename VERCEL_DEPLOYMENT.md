@@ -91,6 +91,11 @@ Dopo il deployment:
 ✅ AuraCount: Online - Connesso a Supabase
 📂 AuraCount: Caricamento dati...
 📥 AuraCount: Dati caricati da Supabase
+
+🔍 GameSession: Verifico connessione Supabase...
+✅ GameSession: Online - Connesso a Supabase
+📂 GameSession: Caricamento sessioni...
+📥 GameSession: Sessioni caricate da Supabase
 ```
 
 **❌ Configurazione mancante:**
@@ -101,6 +106,11 @@ Dopo il deployment:
 ⚠️ AuraCount: Supabase non configurato, modalità localStorage
 📂 AuraCount: Caricamento dati...
 📁 AuraCount: Caricamento da localStorage
+
+🔍 GameSession: Verifico connessione Supabase...
+⚠️ GameSession: Supabase non configurato, modalità localStorage
+📂 GameSession: Caricamento sessioni...
+📁 GameSession: Caricamento da localStorage
 ```
 
 **⚠️ Se non vedi NESSUN messaggio AuraCount:**
@@ -109,6 +119,10 @@ Dopo il deployment:
 3. **Controlla i filtri della console** - assicurati che siano mostrati tutti i messaggi
 4. **Verifica di essere sulla pagina corretta** - vai su `/game`
 5. **Controlla che JavaScript sia abilitato** nel browser
+
+**🎮 Problemi con codici sessione:**
+- Se vedi messaggi "GameSession" significa che le sessioni ora vengono salvate su Supabase
+- I codici ora funzionano tra diversi dispositivi quando Supabase è configurato
 
 ## Troubleshooting
 
