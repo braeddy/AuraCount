@@ -2,14 +2,13 @@
 CREATE TABLE IF NOT EXISTS players (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     name VARCHAR(255) NOT NULL,
-    aura INTEGER DEFAULT 0,
+    aura BIGINT DEFAULT 0,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     profile_image TEXT,
     bio TEXT,
     
     -- Constraints
-    CONSTRAINT players_name_not_empty CHECK (LENGTH(TRIM(name)) > 0),
-    CONSTRAINT players_aura_reasonable CHECK (aura >= -999999 AND aura <= 999999)
+    CONSTRAINT players_name_not_empty CHECK (LENGTH(TRIM(name)) > 0)
 );
 
 -- Creazione della tabella aura_actions
@@ -17,13 +16,12 @@ CREATE TABLE IF NOT EXISTS aura_actions (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     player_id UUID NOT NULL REFERENCES players(id) ON DELETE CASCADE,
     player_name VARCHAR(255) NOT NULL,
-    change INTEGER NOT NULL,
+    change BIGINT NOT NULL,
     timestamp TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     reason TEXT,
     
     -- Constraints
-    CONSTRAINT aura_actions_change_not_zero CHECK (change != 0),
-    CONSTRAINT aura_actions_change_reasonable CHECK (change >= -1000 AND change <= 1000)
+    CONSTRAINT aura_actions_change_not_zero CHECK (change != 0)
 );
 
 -- Creazione della tabella game_sessions (per il futuro)

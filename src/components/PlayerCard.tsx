@@ -162,7 +162,7 @@ export default function PlayerCard({ player, rank, onChangeAura, onRemovePlayer 
 
       {/* Pulsanti quick change - ordine delle migliaia */}
       <div className="mb-4">
-        <h5 className="text-slate-600 text-center mb-3 text-sm font-medium">Modifiche Rapide</h5>
+        <h5 className="text-slate-600 text-center mb-3 text-sm font-medium">Modifiche Rapide (K)</h5>
         <div className="grid grid-cols-2 gap-2">
           <button
             onClick={(e) => quickChange(1000, e)}
@@ -187,6 +187,37 @@ export default function PlayerCard({ player, rank, onChangeAura, onRemovePlayer 
             className="bg-gradient-to-r from-red-100 to-rose-100 hover:from-red-200 hover:to-rose-200 text-slate-700 font-medium py-3 px-3 rounded-xl transition-all duration-200 border border-red-200"
           >
             -5K
+          </button>
+        </div>
+      </div>
+
+      {/* Pulsanti per valori enormi - ordine dei milioni */}
+      <div className="mb-4">
+        <h5 className="text-slate-600 text-center mb-3 text-sm font-medium">Valori Estremi (M)</h5>
+        <div className="grid grid-cols-2 gap-2">
+          <button
+            onClick={(e) => quickChange(100000, e)}
+            className="bg-gradient-to-r from-amber-100 to-yellow-100 hover:from-amber-200 hover:to-yellow-200 text-slate-700 font-medium py-3 px-3 rounded-xl transition-all duration-200 border border-amber-200"
+          >
+            +100K
+          </button>
+          <button
+            onClick={(e) => quickChange(1000000, e)}
+            className="bg-gradient-to-r from-orange-100 to-amber-100 hover:from-orange-200 hover:to-amber-200 text-slate-700 font-medium py-3 px-3 rounded-xl transition-all duration-200 border border-orange-200"
+          >
+            +1M
+          </button>
+          <button
+            onClick={(e) => quickChange(-100000, e)}
+            className="bg-gradient-to-r from-purple-100 to-violet-100 hover:from-purple-200 hover:to-violet-200 text-slate-700 font-medium py-3 px-3 rounded-xl transition-all duration-200 border border-purple-200"
+          >
+            -100K
+          </button>
+          <button
+            onClick={(e) => quickChange(-1000000, e)}
+            className="bg-gradient-to-r from-indigo-100 to-purple-100 hover:from-indigo-200 hover:to-purple-200 text-slate-700 font-medium py-3 px-3 rounded-xl transition-all duration-200 border border-indigo-200"
+          >
+            -1M
           </button>
         </div>
       </div>
